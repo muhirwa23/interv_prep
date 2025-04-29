@@ -1,5 +1,6 @@
 const ROUTES = {
   HOME: "/",
+  DASHBOARD: "/dashboard",
   SIGN_IN: "/sign-in",
   SIGN_UP: "/sign-up",
   ASK_QUESTION: "/ask-question",
@@ -11,6 +12,7 @@ const ROUTES = {
   QUESTION: (id: string) => `/questions/${id}`,
   TAG: (id: string) => `/tags/${id}`,
   SIGN_IN_WITH_OAUTH: `signin-with-oauth`,
+  SEARCH: "/search",
 };
 
 export default ROUTES;
