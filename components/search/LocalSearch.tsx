@@ -14,6 +14,8 @@ interface Props {
   placeholder: string;
   otherClasses?: string;
   iconPosition?: "left" | "right";
+  searchParamName?: string;
+  initialValue?: string;
 }
 
 const LocalSearch = ({
@@ -22,11 +24,13 @@ const LocalSearch = ({
   placeholder,
   otherClasses,
   iconPosition = "left",
+  searchParamName = "query",
+  initialValue = "",
 }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const query = searchParams.get("query") || "";
+  const query = searchParams.get(searchParamName) || initialValue;
 
   const [searchQuery, setSearchQuery] = useState(query);
 
@@ -35,7 +39,7 @@ const LocalSearch = ({
       if (searchQuery) {
         const newUrl = formUrlQuery({
           params: searchParams.toString(),
-          key: "query",
+          key: searchParamName,
           value: searchQuery,
         });
 
@@ -44,7 +48,7 @@ const LocalSearch = ({
         if (pathname === route) {
           const newUrl = removeKeysFromUrlQuery({
             params: searchParams.toString(),
-            keysToRemove: ["query"],
+            keysToRemove: [searchParamName],
           });
 
           router.push(newUrl, { scroll: false });
@@ -53,7 +57,7 @@ const LocalSearch = ({
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [searchQuery, router, route, searchParams, pathname]);
+  }, [searchQuery, router, route, searchParams, pathname, searchParamName]);
 
   return (
     <div
